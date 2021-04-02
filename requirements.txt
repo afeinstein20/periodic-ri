@@ -3,3 +3,4 @@ ipykernel
 numpy
 astropy
 scipy
+lmfit

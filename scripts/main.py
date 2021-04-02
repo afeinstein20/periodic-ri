@@ -1,7 +1,9 @@
 import os
 import numpy as np
 import pandas as pd
+from scipy.stats import norm
 import matplotlib.pyplot as plt
+from scipy.optimize import minimize
 from astropy.timeseries import LombScargle
 
 __all__ = ['RV_Detection']
@@ -104,18 +106,39 @@ class RV_Detection(object):
                 new_X0[:,c+1] = np.sin(2 * np.pi * ts)/add_P[j]
                 c += 2
         
-        def loss_function(params):
+        def loss_function(params, ret_logL=True):
             """
             Quadratic loss function.
             """
             nonlocal se
-            s = np.exp(params[1]) # sigma parameter
+            s = np.exp(params[0]) # sigma parameter
             v = s**2 + se**2
-            ####
-            # STOPPED HERE FOR THE NIGHT OF 01-04-201
-            ####
+
+            fit = np.polyfit(ts, y, deg=1, w=1.0/v)
+            model = np.poly1d(fit)
+            res = model(ts) - y
+            shape = X0.shape[0] - X0.shape[1]
+            pdf = norm.pdf(res, scale=np.sqrt(v))
+
+            logL = np.nansum( np.log10(pdf) )
         
-        best = least_squares()
+            if ret_logL == False:
+                yhat = y - res
+                return(np.sqrt(v), fit, yhat, -logL,
+                       np.correlate(y, yhat)**2, shape,
+                       params)
+            
+            else:
+                return -logL # log likelihood
+        
+
+        best = minimize(fun=loss_function,
+                        x0=[np.log10(np.nanmean(se))],
+                        method='L-BFGS-B',
+                        tol=1e-9,
+                        bounds=[(-10,10)])
+
+        return loss_function(best.x, ret_logL=False)
 
     
     def null_periodogram(self, theta0, null_samples=100, verbose=False):
