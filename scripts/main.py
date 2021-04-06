@@ -1,4 +1,4 @@
-import os
+import os, time
 import numpy as np
 import pandas as pd
 from scipy.stats import norm
@@ -71,22 +71,22 @@ class RV_Detection(object):
            Peak period in periodogram.
         
         """
-         if y is None:
-             y = self.df['Vel']+0.0
-
-         results = LombScargle(self.df['Time'], y,
-                               dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
-                                                            maximum_frequency=1.0/minperiod,
-                                                            samples_per_peak=50.0)
-         argmax = np.argmax(results[1])
+        if y is None:
+            y = self.df['Vel']+0.0
+            
+        results = LombScargle(self.df['Time'], y,
+                              dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
+                                                           maximum_frequency=1.0/minperiod,
+                                                           samples_per_peak=50.0)
+        argmax = np.argmax(results[1])
          
-         if ret_results == False:
-             self.LS_results = results
-             self.peak_period = 1.0/results[0][argmax]
-
-         else:
-             return results, 1.0/results[0][argmax]
-    
+        if ret_results == False:
+            self.LS_results = results
+            self.peak_period = 1.0/results[0][argmax]
+            
+        else:
+            return results, 1.0/results[0][argmax]
+        
 
     def get_X(self, x):
         """
@@ -204,8 +204,8 @@ class RV_Detection(object):
 
             # 2. Lomb-Scargle periodogram
             out,_ = self.lomb_scargle(y=y_new, 
-                                    minfreq=self.minfreq, 
-                                    maxfreq=self.maxfreq,
+                                    minperiod=1.0/self.maxfreq,
+                                    maxperiod=1.0/self.minfreq,
                                     ret_results=True)
                 
             # Creates S_null array
@@ -253,7 +253,7 @@ class RV_Detection(object):
                                       10000))
 
         if self.LS_results is None:
-            self.lomb_scargle(minfreq=self.minfreq, maxfreq=self.maxfreq)
+            self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
 
 
         ind0 = np.argmin(np.abs(self.LS_results[0] - theta0))
@@ -280,4 +280,20 @@ class RV_Detection(object):
         self.null_pval = len(np.where(S_null >= sobs)[0])/len(S_null)
         
         
+        
+    def build_confidence_set(self, alpha=0.01, null_samples=100, time_budget=1.0):
+        """
+        Main methood that builds a confidence set $\theta_{1-\alpha}$ in
+        Equations (7) and (12) of Toulis & Bean (2021).
+
+        Parameters
+        ----------
+        alpha : float, optional
+           Confidence level. Default = 0.01.
+        null_samples : int, optional
+           Number of randomization samples. Default = 100 samples.
+        time_budget : int, optional
+           How many minutes to spend in computation. Default = 1 minute.
+        """
+
         
