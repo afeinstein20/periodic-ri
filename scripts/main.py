@@ -76,6 +76,9 @@ class RV_Detection(object):
         if y is None:
             y = self.df['Vel']+0.0
             
+        self.minfreq=1.0/maxperiod
+        self.maxfreq=1.0/minperiod
+
         results = LombScargle(self.df['Time'], y,
                               dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
                                                            maximum_frequency=1.0/minperiod,
@@ -237,7 +240,6 @@ class RV_Detection(object):
         ind0 : int
            Index of period closest to theta0.
         """
-        best = np.sort(pf)[-2:]
         return np.max(pf) - pf[ind0]
 
 
@@ -345,12 +347,20 @@ class RV_Detection(object):
            Maximum period to search over. Default = 50 days.
         time_budget : int, optional
            How many minutes to spend in computation. Default = 1 minute.
+
+        Attributes
+        ----------
+        pvals_m : np.ndarray
+           Creates an array of period and associated p-values.
+        cset : np.ndarray
+           Confidence set of periods for the intialized data.
         """
+        from tqdm import tqdm
 
         # Runs LS for original data input
         if self.LS_results is None:
             self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
-        
+
         # 1. Get candidate thetas
         #    How many thetas to consider given the time budget
         # 1a. Calculate average Lomb-Scargle periodogram rate
@@ -373,11 +383,13 @@ class RV_Detection(object):
         """
 
         thetas, theta_inds = self.get_candidate_periods(threshold=threshold)
-        
+
         if null_samples < 100:
             warnings.warn("Number of null samples should be larger than 100.")
             
-        for i, theta0 in enumerate(thetas):
+        pvals_m = np.zeros((len(thetas), 4))
+
+        for i, theta0 in enumerate(tqdm(thetas)):
             # H0: theta*=theta0
             id0 = np.argmin( np.abs(self.LS_results[0] - theta0) )
             
@@ -385,6 +397,20 @@ class RV_Detection(object):
             Pf_null = self.null_periodogram(theta0, null_samples=null_samples, 
                                             ret_results=True)
             
-            # Test statistic
-            
-            
+            # 4a. Observed test statistic
+            sobs = self.tstat(self.LS_results[1], id0)
+
+            # 4b. Null distribution
+            S_null = np.zeros(len(Pf_null))
+            for j in range(len(S_null)):
+                S_null[j] = self.tstat(Pf_null[j], id0)
+                
+            pvals_m[i] = np.array([1.0/theta0, 
+                                   np.nanmean(S_null[S_null <= sobs]),
+                                   np.nanmean(S_null[S_null >= sobs]),
+                                   np.nanmean(S_null[S_null == sobs])])
+
+        # Excludes intervals with values < assigned alpha
+        inds = np.where(pvals_m[:,2] > alpha)
+        self.pvals_m = pvals_m[inds,:]
+        self.cset = pvals_m[:,0][inds]
