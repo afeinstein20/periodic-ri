@@ -34,7 +34,7 @@ class RV_Detection(object):
         df['Vel'] = vel
         df['Err'] = err
         self.df = df
-        self.peak_period = None
+        self.LS_results = None
 
 
     def lomb_scargle(self, y=None, minfreq=1.0/50., maxfreq=1.0/0.5, ret_results=False):
@@ -55,9 +55,6 @@ class RV_Detection(object):
             Peak period in periodogram.
          LS_results : np.ndarray
             Results array from astropy.timeseries.LombScarlge.autopower().
-         self.all_P : np.ndarray
-            Array of length 10000 spanning the minimum and maximum input
-            frequencies.
          """
          if y is None:
              y = self.df['Vel']+0.0
@@ -67,19 +64,13 @@ class RV_Detection(object):
                                                             maximum_frequency=maxfreq,
                                                             samples_per_peak=50.0)
          argmax = np.argmax(results[1])
-         all_P = 10**(np.linspace(np.log10(maxfreq),
-                                  np.log10(minfreq), 10000))
          
          if ret_results == False:
              self.peak_period = 1.0/results[0][argmax]
              self.LS_results = results
-             self.all_P = all_P + 0.0
 
          else:
-             return {'periods':1.0/results[0],
-                     'power':results[1],
-                     'peak_period':1.0/results[0][argmax],
-                     'all_P': all_P}
+             return results, 1.0/results[0][argmax]
     
 
     def get_X(self, x):
@@ -163,14 +154,20 @@ class RV_Detection(object):
         Samples the periodogram under the null hypothesis that
         $\theta$* = $\theta$0.
 
-        Returns
-        -------
-        all_power : np.ndarray
-           Array of Lomb Scargle power values per each null sample.
-        all_P : np.ndarray
-           Array of periods sampled.
+        Parameters
+        ----------
         theta0 : float
+           Initial guess of periodic signal in the RV data.
+        null_samples : int, optional
+           Number of samples to test over. Default = 100 samples.
+        verbose : bool, optional
+
+        Attributes
+        -------
+        all_null_power : np.ndarray
+           Array of Lomb Scargle power values per each null sample.
         """
+        np.random.seed(123)
 
         n = len(self.df)
 
@@ -191,21 +188,41 @@ class RV_Detection(object):
             y_new = Yhat0 + e
 
             # 2. Lomb-Scargle periodogram
-            out = self.lomb_scargle(y=y_new, ret_results=True)
+            out,_ = self.lomb_scargle(y=y_new, 
+                                    minfreq=self.minfreq, 
+                                    maxfreq=self.maxfreq,
+                                    ret_results=True)
+                
+            # Creates S_null array
             if i == 0:
-                 all_power = np.zeros((null_samples, len(out['power'])))
-            all_power[i] = out['power']
+                 all_power = np.zeros((null_samples, len(out[1])))
+            all_power[i] = out[1]
         
-        return {'power':all_power, 
-                'all_P': out['all_P'], 
-                'theta0': theta0}
+        self.all_null_power = all_power
         
-    def test_period_theta0(self, theta0, all_p=None, null_samples=100, ls0=None):
+
+    def test_period_theta0(self, theta0, minperiod=0.5, maxperiod=50.0,
+                           null_samples=100):
         """
         Tests H0: theta* = theta0
 
+        Parameters
+        ----------
+        theta0 : float
+           Initial guess of periodic signal in the RV data.
+        minperiod : float, optional
+           Minimum period to search over. Default = 0.5 days.
+        maxperiod : float, optional
+           Maximum period to search over. Default = 50 days.
+        null_samples : int, optional
+           Number of null samples to create. Default = 100 samples.
+
         Attributes
         ----------
+        minfreq : float
+        maxfreq : float
+        all_p : np.ndarray
+           Periodic signals searched over.
         sobs : float
            Test statistic between theta0 and theta*.
         S_null : np.ndarray
@@ -213,12 +230,20 @@ class RV_Detection(object):
         null_pval : float
            Fraction of S_null values greater than or equal to sobs.
         """
-        if ls0 is None:
-            ls0 = self.lomb_scargle(ret_results=True)
+        self.minfreq = 1.0/maxperiod
+        self.maxfreq = 1.0/minperiod
 
-        ind0 = np.argmin(np.abs(ls0['all_P'] - theta0))
+        self.all_p = 10**(np.linspace(np.log10(1.0/maxperiod), 
+                                      np.log10(1.0/minperiod), 
+                                      10000))
 
-        Pf_null = self.null_periodogram(theta0=theta0, null_samples=null_samples)
+        if self.LS_results is None:
+            self.lomb_scargle(minfreq=self.minfreq, maxfreq=self.maxfreq)
+
+
+        ind0 = np.argmin(np.abs(self.LS_results[0] - theta0))
+
+        self.null_periodogram(theta0=theta0, null_samples=null_samples)
 
         # Test statistic
         def tstat(pf):
@@ -228,12 +253,12 @@ class RV_Detection(object):
             return np.max(pf) - pf[ind0]
 
         # 4a. Observed test statistic
-        sobs = tstat(ls0['power'])
+        sobs = tstat(self.LS_results[1])
 
         # 4b. Null distribution
-        S_null = np.zeros(len(Pf_null['power']))
+        S_null = np.zeros(len(self.all_null_power))
         for i in range(len(S_null)):
-            S_null[i] = tstat(Pf_null['power'][i])
+            S_null[i] = tstat(self.all_null_power[i])
 
         self.S_null = S_null
         self.sobs   = sobs
