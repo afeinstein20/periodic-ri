@@ -76,9 +76,6 @@ class RV_Detection(object):
         if y is None:
             y = self.df['Vel']+0.0
             
-        self.minfreq=1.0/maxperiod
-        self.maxfreq=1.0/minperiod
-
         results = LombScargle(self.df['Time'], y,
                               dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
                                                            maximum_frequency=1.0/minperiod,
@@ -172,7 +169,8 @@ class RV_Detection(object):
         return loss_function(best.x, ret_logL=False)
 
     
-    def null_periodogram(self, theta0, null_samples=100, verbose=False, ret_results=False):
+    def null_periodogram(self, theta0, minperiod=0.5, maxperiod=50.0,
+                         null_samples=100, verbose=False, ret_results=False):
         """
         Samples the periodogram under the null hypothesis that
         $\theta$* = $\theta$0.
@@ -181,6 +179,10 @@ class RV_Detection(object):
         ----------
         theta0 : float
            Initial guess of periodic signal in the RV data.
+        minperiod : float, optional
+           Minimum period to search over. Default = 0.5 days.
+        maxperiod : float, optional
+           Maximum period to search over. Default = 50 days.
         null_samples : int, optional
            Number of samples to test over. Default = 100 samples.
         verbose : bool, optional
@@ -214,8 +216,8 @@ class RV_Detection(object):
 
             # 2. Lomb-Scargle periodogram
             out,_,_ = self.lomb_scargle(y=y_new, 
-                                        minperiod=1.0/self.maxfreq,
-                                        maxperiod=1.0/self.minfreq,
+                                        minperiod=minperiod,
+                                        maxperiod=maxperiod,
                                         ret_results=True)
                 
             # Creates S_null array
@@ -240,7 +242,10 @@ class RV_Detection(object):
         ind0 : int
            Index of period closest to theta0.
         """
-        return np.max(pf) - pf[ind0]
+        if len(pf.shape) == 2:
+            return np.nanmax(pf, axis=1) - pf[:,ind0] ### 90% SURE THIS SHOULD BE AXIS=1
+        else:
+            return np.nanmax(pf) - pf[ind0]
 
 
     def test_period_theta0(self, theta0, minperiod=0.5, maxperiod=50.0,
@@ -272,28 +277,25 @@ class RV_Detection(object):
         null_pval : float
            Fraction of S_null values greater than or equal to sobs.
         """
-        self.minfreq = 1.0/maxperiod
-        self.maxfreq = 1.0/minperiod
 
         self.all_p = 10**(np.linspace(np.log10(1.0/maxperiod), 
                                       np.log10(1.0/minperiod), 
                                       10000))
 
-        if self.LS_results is None:
-            self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
+        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
 
 
         ind0 = np.argmin(np.abs(self.LS_results[0] - theta0))
 
-        self.null_periodogram(theta0=theta0, null_samples=null_samples)
+        self.null_periodogram(theta0=theta0, minperiod=minperiod,
+                              maxperiod=maxperiod,
+                              null_samples=null_samples)
 
         # 4a. Observed test statistic
         sobs = self.tstat(self.LS_results[1], ind0)
 
         # 4b. Null distribution
-        S_null = np.zeros(len(self.all_null_power))
-        for i in range(len(S_null)):
-            S_null[i] = self.tstat(self.all_null_power[i], ind0)
+        S_null = self.tstat(self.all_null_power, ind0)
 
         self.S_null = S_null
         self.sobs   = sobs
@@ -326,11 +328,12 @@ class RV_Detection(object):
         return self.LS_results[0][peaks], peaks
 
 
-    def build_confidence_set(self, alpha=0.01, null_samples=100, threshold=0.2,
+    def build_confidence_set(self, alpha=0.01, null_samples=100, 
                              minperiod=0.5, maxperiod=50.0, time_budget=1.0):
         """
         Main methood that builds a confidence set $\theta_{1-\alpha}$ in
-        Equations (7) and (12) of Toulis & Bean (2021).
+        Equations (7) and (12) of Toulis & Bean (2021). Defines the minimum
+        power threshold to search over via input time constraints.
 
         Parameters
         ----------
@@ -338,9 +341,6 @@ class RV_Detection(object):
            Confidence level. Default = 0.01.
         null_samples : int, optional
            Number of randomization samples. Default = 100 samples.
-        threshold : float, optional
-           Value the Lomb-Scargle periodogram power must exceed to be
-           considered a decent periodic signal. Default = 0.2.
         minperiod : float, optional
            Minimum period to search over. Default = 0.5 days.
         maxperiod : float, optional
@@ -358,18 +358,16 @@ class RV_Detection(object):
         from tqdm import tqdm
 
         # Runs LS for original data input
-        if self.LS_results is None:
-            self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
+        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
 
         # 1. Get candidate thetas
         #    How many thetas to consider given the time budget
         # 1a. Calculate average Lomb-Scargle periodogram rate
-        # Honestly not sure we need this... Might just be adding computing time 
-        """
+        
         ls_times=np.zeros(10)
         for i in range(10):
             _, _, t = self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod,
-                                        ret_results=True)
+                                          ret_results=True)
             ls_times[i] = t
         rate = np.nanmean(ls_times)
 
@@ -380,9 +378,9 @@ class RV_Detection(object):
             x, _ = self.get_candidate_periods(threshold=all_thresholds[i])
             threshold_lens[i] = len(x)
         best_threshold = np.argmin( np.abs(threshold_lens*null_samples*rate/60 - time_budget) ) # time in minutes
-        """
 
-        thetas, theta_inds = self.get_candidate_periods(threshold=threshold)
+        # Decides which periods to sample over (given time constraints)
+        thetas, theta_inds = self.get_candidate_periods(threshold=all_thresholds[best_threshold])
 
         if null_samples < 100:
             warnings.warn("Number of null samples should be larger than 100.")
@@ -395,15 +393,14 @@ class RV_Detection(object):
             
             # For each theta0, sample from the null.
             Pf_null = self.null_periodogram(theta0, null_samples=null_samples, 
-                                            ret_results=True)
+                                            ret_results=True, minperiod=minperiod,
+                                            maxperiod=maxperiod)
             
             # 4a. Observed test statistic
             sobs = self.tstat(self.LS_results[1], id0)
 
             # 4b. Null distribution
-            S_null = np.zeros(len(Pf_null))
-            for j in range(len(S_null)):
-                S_null[j] = self.tstat(Pf_null[j], id0)
+            S_null = self.tstat(Pf_null, id0)
                 
             pvals_m[i] = np.array([1.0/theta0, 
                                    np.nanmean(S_null[S_null <= sobs]),
@@ -412,5 +409,5 @@ class RV_Detection(object):
 
         # Excludes intervals with values < assigned alpha
         inds = np.where(pvals_m[:,2] > alpha)
-        self.pvals_m = pvals_m[inds,:]
+        self.pvals_m = pvals_m#[inds,:]
         self.cset = pvals_m[:,0][inds]
