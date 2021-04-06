@@ -196,17 +196,48 @@ class RV_Detection(object):
                  all_power = np.zeros((null_samples, len(out['power'])))
             all_power[i] = out['power']
         
-        return all_power, out['all_P'], theta0
+        return {'power':all_power, 
+                'all_P': out['all_P'], 
+                'theta0': theta0}
         
     def test_period_theta0(self, theta0, all_p=None, null_samples=100, ls0=None):
-        if all_p == None:
-            all_p=self.all_P
-            
-        if self.peak_period == None:
-            self.lomb_scargle()
-            
-        id0 = np.argmin(np.abs(all_p - theta0))
+        """
+        Tests H0: theta* = theta0
+
+        Attributes
+        ----------
+        sobs : float
+           Test statistic between theta0 and theta*.
+        S_null : np.ndarray
+           Null distributiion test statistics.
+        null_pval : float
+           Fraction of S_null values greater than or equal to sobs.
+        """
+        if ls0 is None:
+            ls0 = self.lomb_scargle(ret_results=True)
+
+        ind0 = np.argmin(np.abs(ls0['all_P'] - theta0))
+
         Pf_null = self.null_periodogram(theta0=theta0, null_samples=null_samples)
-        #######
-        # return here when null_periodogram is complete
-        #######
+
+        # Test statistic
+        def tstat(pf):
+            nonlocal ind0
+
+            best = np.sort(pf)[-2:]
+            return np.max(pf) - pf[ind0]
+
+        # 4a. Observed test statistic
+        sobs = tstat(ls0['power'])
+
+        # 4b. Null distribution
+        S_null = np.zeros(len(Pf_null['power']))
+        for i in range(len(S_null)):
+            S_null[i] = tstat(Pf_null['power'][i])
+
+        self.S_null = S_null
+        self.sobs   = sobs
+        self.null_pval = len(np.where(S_null >= sobs)[0])/len(S_null)
+        
+        
+        
