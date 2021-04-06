@@ -37,37 +37,52 @@ class RV_Detection(object):
         self.LS_results = None
 
 
-    def lomb_scargle(self, y=None, minfreq=1.0/50., maxfreq=1.0/0.5, ret_results=False):
-         """
-         Creates Lomb-Scargle periodogram for RV data within a given frequency 
-         range.
+    def lomb_scargle(self, y=None, minperiod=0.5, maxperiod=50.0, ret_results=False):
+        """
+        Creates Lomb-Scargle periodogram for RV data within a given frequency 
+        range.
         
-         Parameters
-         ----------
-         minfreq : float, optional
-            Minimum frequency to compute over. Default = 1/50.
-         maxfreq : float, optional
-            Maximum frequency to compute over. Default = 1/0.5.
-            
-         Attributes
-         ----------
-         peak_period : float
-            Peak period in periodogram.
-         LS_results : np.ndarray
-            Results array from astropy.timeseries.LombScarlge.autopower().
-         """
+        Parameters
+        ----------
+        minperiod : float, optional
+           Minimum period to compute over. Default = 0.5 days.
+        maxperiod : float, optional
+           Maximum period to compute over. Default = 50 days.
+        y : np.ndarray, optional
+           Array of velocities to run the Lomb-Scargle periodogram
+           over. Default is velocity array used to initialize this class
+           (self.df['Vel']).
+        ret_results : bool, optional
+           Option to return results instead of setting results as a class
+           attribute. Default = False.
+
+        Attributes
+        ----------
+        LS_results : np.ndarray
+           Results array from astropy.timeseries.LombScarlge.autopower().
+        peak_period : float
+           Peak period in periodogram.
+
+        Returns
+        -------
+        results : np.ndarray
+           Results array from astropy.timeseries.LombScarlge.autopower().
+        peak_period : float
+           Peak period in periodogram.
+        
+        """
          if y is None:
              y = self.df['Vel']+0.0
 
          results = LombScargle(self.df['Time'], y,
-                               dy=self.df['Err']).autopower(minimum_frequency=minfreq,
-                                                            maximum_frequency=maxfreq,
+                               dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
+                                                            maximum_frequency=1.0/minperiod,
                                                             samples_per_peak=50.0)
          argmax = np.argmax(results[1])
          
          if ret_results == False:
-             self.peak_period = 1.0/results[0][argmax]
              self.LS_results = results
+             self.peak_period = 1.0/results[0][argmax]
 
          else:
              return results, 1.0/results[0][argmax]
