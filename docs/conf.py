@@ -20,7 +20,7 @@ on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- Project information -----------------------------------------------------
 
-project = 'rvs-by-ri'
+project = 'periodic-ri'
 copyright = '2020-2021, Adina D. Feinstein'
 author = 'Adina D. Feinstein'
 
@@ -137,7 +137,7 @@ latex_elements = {
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
-    (master_doc, 'rvs-by-ri.tex', 'rvs-by-ri Documentation',
+    (master_doc, 'periodic-ri.tex', 'periodic-ri Documentation',
      'Adina Feinstein', 'manual'),
 ]
 
@@ -147,7 +147,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    (master_doc, 'rvs-by-ri', 'rvs-by-ri Documentation',
+    (master_doc, 'periodic-ri', 'periodic-ri Documentation',
      [author], 1)
 ]
 
@@ -158,8 +158,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-    (master_doc, 'rvs-by-ri', 'rvs-by-ri Documentation',
-     author, 'rvs-by-ri', 'Periodic detection through random inference',
+    (master_doc, 'periodic-ri', 'periodic-ri Documentation',
+     author, 'periodic-ri', 'Periodic detection through random inference',
      'Miscellaneous'),
 ]
 
