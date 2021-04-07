@@ -16,7 +16,7 @@ in `Toulis & Bean (2021)`_.
 
    getting_started/about
    getting_started/installation
-   getting_started/demo.ipynb
+   getting_started/demo
 
 .. toctree::
    :maxdepth: 2
@@ -32,7 +32,6 @@ periodic-ri is an open source project under the MIT license. The source code is 
 
 Index
 -----
-
 * :ref:`genindex`
 
 .. _GitHub: http://github.com/afeinstein20/periodic-ri
