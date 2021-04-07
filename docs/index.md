@@ -10,19 +10,20 @@ rvs-by-ri is an open source project for detecting periodic signals in data throu
 random inference. This package is a Python implementation of the original `R code`_.
 The details of the algorithm can be found in the `Toulis & Bean (2021)`_.
 
-.. toctree::
-   :maxdepth: 1
-   :caption: Getting Started
 
-   getting_started/about
-   getting_started/installation
-   getting_started/demo
+Installation
+------------
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Documentation
+To install periodic-ri with pip:
+   
+   pip install 
 
-   api
+Alternatively you can install the current development version of periodic-ri:
+
+   git clone https://github.com/afeinstein20/periodic-ri
+   cd periodic-ri
+   python setup.py install
+	    
 
 Citations
 ---------
