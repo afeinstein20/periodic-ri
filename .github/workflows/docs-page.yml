@@ -1,20 +1,27 @@
-name : Build and Deply
-on : [push]
+name: Generate Documentation
 
-jobs :
-  build-and-deploy:
+on: [push]
+
+jobs:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name : Checkout
-        uses : actions/checkout@v2.3.1
- 
-      - name : Install and Build
-        run : |
-          npm install
-          npm run build
-
-      - name : Deploy
-        uses : JamesIves/github-pages-deploy-action@4.0.0
-        with :
-          branch : master
-          folder : build
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Github Action genshdoc
+      id: action-genshdoc
+      uses: vargiuscuola/genshdoc@main
+    - name: genshdoc result
+      run: echo "The result of genshdoc Action was ${{ steps.action-genshdoc.outputs.result }}"
+    - name: Commit files
+      run: |
+        echo ${{ github.ref }}
+        git add .
+        git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git commit -m "CI: Automated build push" -a | exit 0
+    - name: Push changes
+      if: github.ref == 'refs/heads/main'
+      uses: ad-m/github-push-action@main
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
