@@ -1,12 +1,8 @@
-.. rvs-by-ri documentation master file, created by
-   sphinx-quickstart on Mon Sep 17 11:56:28 2018.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
 
-rvs-by-ri
+periodic-ri
 =====================================================
 
-rvs-by-ri is an open source project for detecting periodic signals in data through
+periodic-ri an open source project for detecting periodic signals in data through
 random inference. This package is a Python implementation of the original `R code`_.
 The details of the algorithm can be found in the `Toulis & Bean (2021)`_.
 
@@ -16,13 +12,13 @@ Installation
 
 To install periodic-ri with pip:
    
-   pip install 
+   `pip install`
 
 Alternatively you can install the current development version of periodic-ri:
 
-   git clone https://github.com/afeinstein20/periodic-ri
+   `git clone https://github.com/afeinstein20/periodic-ri
    cd periodic-ri
-   python setup.py install
+   python setup.py install`
 	    
 
 Citations
