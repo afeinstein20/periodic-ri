@@ -11,7 +11,7 @@ if the python implementation of the original code `written in R`_. The details o
 in `Toulis & Bean (2021)`_.
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 3
    :caption: Getting Started
 
    getting_started/about
@@ -19,7 +19,7 @@ in `Toulis & Bean (2021)`_.
    getting_started/demo
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Documentation
 
    api
