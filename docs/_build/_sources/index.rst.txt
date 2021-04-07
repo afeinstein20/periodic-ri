@@ -8,7 +8,7 @@ periodic-ri: Detecting periodic signals via Randomization Inference
 
 periodic-ri is an open-source python framework for detecting periodic signals in astronomy data. This
 if the python implementation of the original code `written in R`_. The details of the methods can be found
-in `Touliis & Bean (2021)`_.
+in `Toulis & Bean (2021)`_.
 
 .. toctree::
    :maxdepth: 1
