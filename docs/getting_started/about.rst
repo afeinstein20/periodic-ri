@@ -1,6 +1,6 @@
 .. _overview:
 
-About rvs-by-ri
+About periodic-ri
 =============
 
 Summary of Functionality

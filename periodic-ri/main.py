@@ -4,9 +4,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from astropy.timeseries import LombScargle
 
-__all__ = ['RV_Detection']
+__all__ = ['PeriodicRI']
 
-class RV_Detection(object):
+class PeriodicRI(object):
     """
     Implements RV detection methods described in
     Toulis & Bean (2021).
