@@ -12,19 +12,19 @@ Installation
 
 To install periodic-ri with pip:
    
-    `pip install`
+    pip install
 
 Alternatively you can install the current development version of periodic-ri:
 
-    `git clone https://github.com/afeinstein20/periodic-ri`
-    `cd periodic-ri`
-    `python setup.py install`
+    git clone https://github.com/afeinstein20/periodic-ri
+    cd periodic-ri
+    python setup.py install
 	    
 
 Citations
 ---------
 
-If your work uses the PeriodicRI software, please cite.
+If your work uses the periodic-ri software, please cite.
 
 
 Bug Reports, Questions, & Contributions
@@ -35,4 +35,4 @@ periodic-ri is an open source project under the MIT license. The source code is 
 
 Index
 -----
-* :ref:`genindex`
+
