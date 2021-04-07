@@ -9,12 +9,12 @@ from astropy.timeseries import LombScargle
 
 from .gls import Gls
 
-__all__ = ['RV_Detection']
+__all__ = ['PeriodicRI']
 
-class RV_Detection(object):
+class PeriodicRI(object):
     """
-    Implements RV detection methods described in
-    Toulis & Bean (2021).
+    Implements periodic signal detection methods 
+    described in Toulis & Bean (2021).
 
     Parameters
     ----------
@@ -37,7 +37,6 @@ class RV_Detection(object):
         df['Vel'] = vel
         df['Err'] = err
         self.df = df
-        self.LS_results = None
 
 
     def lomb_scargle(self, y=None, minperiod=0.5, maxperiod=50.0, 
@@ -56,6 +55,10 @@ class RV_Detection(object):
            Array of velocities to run the Lomb-Scargle periodogram
            over. Default is velocity array used to initialize this class
            (self.df['Vel']).
+        norm : str, optional
+           Sets the normalization for the periodogram. Default is 'astropy', 
+           which uses the astropy.timeseries.LombScargle function. Other 
+           options include those implemented in GLS: ("ZK", "Scargle", "HorneBaliunas", "Cumming", "wrms", "chisq").
         ret_results : bool, optional
            Option to return results instead of setting results as a class
            attribute. Default = False.
@@ -82,9 +85,11 @@ class RV_Detection(object):
 
         if norm == 'astropy':
             results = LombScargle(self.df['Time'], y,
-                                  dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
-                                                               maximum_frequency=1.0/minperiod,
-                                                               samples_per_peak=50.0)
+                                  dy=self.df['Err'],
+                                  normalization='log').autopower(minimum_frequency=1.0/maxperiod,
+                                                                 maximum_frequency=1.0/minperiod,
+                                                                 samples_per_peak=50.0,
+                                                                 normalization='log')
         else:
             gls = Gls(lc=[self.df['Time'],
                           y,
@@ -197,6 +202,10 @@ class RV_Detection(object):
            Minimum period to search over. Default = 0.5 days.
         maxperiod : float, optional
            Maximum period to search over. Default = 50 days.
+        norm : str, optional
+           Sets the normalization for the periodogram. Default is 'astropy',
+           which uses the astropy.timeseries.LombScargle function. Other   
+           options include those implemented in GLS: ("ZK", "Scargle", "HorneBaliunas", "Cumming", "wrms", "chisq"). 
         null_samples : int, optional
            Number of samples to test over. Default = 100 samples.
         verbose : bool, optional
@@ -258,13 +267,13 @@ class RV_Detection(object):
            Index of period closest to theta0.
         """
         if len(pf.shape) == 2:
-            return np.nanmax(pf, axis=1) - pf[:,ind0] ### 90% SURE THIS SHOULD BE AXIS=1
+            return np.nanmax(pf, axis=1) - pf[:,ind0] 
         else:
             return np.nanmax(pf) - pf[ind0]
 
 
     def test_period_theta0(self, theta0, minperiod=0.5, maxperiod=50.0,
-                           null_samples=100, norm='astropy'):
+                           norm='astropy', null_samples=100, norm='astropy'):
         """
         Tests H0: theta* = theta0
 
@@ -276,6 +285,10 @@ class RV_Detection(object):
            Minimum period to search over. Default = 0.5 days.
         maxperiod : float, optional
            Maximum period to search over. Default = 50 days.
+        norm : str, optional 
+           Sets the normalization for the periodogram. Default is 'astropy',
+           which uses the astropy.timeseries.LombScargle function. Other   
+           options include those implemented in GLS: ("ZK", "Scargle", "HorneBaliunas", "Cumming", "wrms", "chisq").      
         null_samples : int, optional
            Number of null samples to create. Default = 100 samples.
 
@@ -303,7 +316,7 @@ class RV_Detection(object):
         ind0 = np.argmin(np.abs(self.LS_results[0] - theta0))
 
         self.null_periodogram(theta0=theta0, minperiod=minperiod,
-                              maxperiod=maxperiod,
+                              maxperiod=maxperiod, norm=norm,
                               null_samples=null_samples)
 
         # 4a. Observed test statistic
@@ -360,6 +373,10 @@ class RV_Detection(object):
            Minimum period to search over. Default = 0.5 days.
         maxperiod : float, optional
            Maximum period to search over. Default = 50 days.
+        norm : str, optional 
+           Sets the normalization for the periodogram. Default is 'astropy',
+           which uses the astropy.timeseries.LombScargle function. Other 
+           options include those implemented in GLS: ("ZK", "Scargle", "HorneBaliunas", "Cumming", "wrms", "chisq").      
         time_budget : int, optional
            How many minutes to spend in computation. Default = 1 minute.
 
@@ -416,6 +433,7 @@ class RV_Detection(object):
 
             # 4b. Null distribution
             S_null = self.tstat(Pf_null, id0)
+            print(S_null)
                 
             pvals_m[i] = np.array([1.0/theta0, 
                                    np.nanmedian(S_null[S_null <= sobs]),
