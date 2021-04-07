@@ -5,6 +5,7 @@ periodic-ri an open source project for detecting periodic signals in data throug
 random inference. This package is a Python implementation of the original [R code](https://github.com/ptoulis/ri-exoplanet-detection).
 The details of the algorithm can be found in the [Toulis & Bean (2021)](https://www.ptoulis.com/s/astro_main.pdf).
 
+{:toc}
 
 Installation
 ------------
