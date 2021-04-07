@@ -2,10 +2,12 @@ import os, time
 import warnings
 import numpy as np
 import pandas as pd
-from scipy.stats import norm
+from scipy import stats
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from astropy.timeseries import LombScargle
+
+from .gls import Gls
 
 __all__ = ['RV_Detection']
 
@@ -38,7 +40,8 @@ class RV_Detection(object):
         self.LS_results = None
 
 
-    def lomb_scargle(self, y=None, minperiod=0.5, maxperiod=50.0, ret_results=False):
+    def lomb_scargle(self, y=None, minperiod=0.5, maxperiod=50.0, 
+                     norm='astropy', ret_results=False):
         """
         Creates Lomb-Scargle periodogram for RV data within a given frequency 
         range.
@@ -76,10 +79,21 @@ class RV_Detection(object):
         if y is None:
             y = self.df['Vel']+0.0
             
-        results = LombScargle(self.df['Time'], y,
-                              dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
-                                                           maximum_frequency=1.0/minperiod,
-                                                           samples_per_peak=50.0)
+
+        if norm == 'astropy':
+            results = LombScargle(self.df['Time'], y,
+                                  dy=self.df['Err']).autopower(minimum_frequency=1.0/maxperiod,
+                                                               maximum_frequency=1.0/minperiod,
+                                                               samples_per_peak=50.0)
+        else:
+            gls = Gls(lc=[self.df['Time'],
+                          y,
+                          self.df['Err']],
+                      fbeg=1.0/maxperiod,
+                      fend=1.0/minperiod,
+                      norm=norm)
+            results = np.array([gls.freq, gls.power])
+
         argmax = np.argmax(results[1])
 
         end = time.time()
@@ -141,7 +155,7 @@ class RV_Detection(object):
             model = np.poly1d(fit)
             res = model(ts) - y
             shape = X0.shape[0] - X0.shape[1]
-            pdf = norm.pdf(res, scale=np.sqrt(v))
+            pdf = stats.norm.pdf(res, scale=np.sqrt(v))
 
             logL = np.nansum( np.log10(pdf) )
         
@@ -169,7 +183,7 @@ class RV_Detection(object):
         return loss_function(best.x, ret_logL=False)
 
     
-    def null_periodogram(self, theta0, minperiod=0.5, maxperiod=50.0,
+    def null_periodogram(self, theta0, minperiod=0.5, maxperiod=50.0, norm='astropy',
                          null_samples=100, verbose=False, ret_results=False):
         """
         Samples the periodogram under the null hypothesis that
@@ -218,7 +232,8 @@ class RV_Detection(object):
             out,_,_ = self.lomb_scargle(y=y_new, 
                                         minperiod=minperiod,
                                         maxperiod=maxperiod,
-                                        ret_results=True)
+                                        ret_results=True,
+                                        norm=norm)
                 
             # Creates S_null array
             if i == 0:
@@ -249,7 +264,7 @@ class RV_Detection(object):
 
 
     def test_period_theta0(self, theta0, minperiod=0.5, maxperiod=50.0,
-                           null_samples=100):
+                           null_samples=100, norm='astropy'):
         """
         Tests H0: theta* = theta0
 
@@ -282,7 +297,7 @@ class RV_Detection(object):
                                       np.log10(1.0/minperiod), 
                                       10000))
 
-        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
+        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod, norm=norm)
 
 
         ind0 = np.argmin(np.abs(self.LS_results[0] - theta0))
@@ -328,7 +343,7 @@ class RV_Detection(object):
         return self.LS_results[0][peaks], peaks
 
 
-    def build_confidence_set(self, alpha=0.01, null_samples=100, 
+    def build_confidence_set(self, alpha=0.01, null_samples=100, norm='astropy',
                              minperiod=0.5, maxperiod=50.0, time_budget=1.0):
         """
         Main methood that builds a confidence set $\theta_{1-\alpha}$ in
@@ -358,7 +373,7 @@ class RV_Detection(object):
         from tqdm import tqdm
 
         # Runs LS for original data input
-        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod)
+        self.lomb_scargle(minperiod=minperiod, maxperiod=maxperiod, norm=norm)
 
         # 1. Get candidate thetas
         #    How many thetas to consider given the time budget
@@ -394,7 +409,7 @@ class RV_Detection(object):
             # For each theta0, sample from the null.
             Pf_null = self.null_periodogram(theta0, null_samples=null_samples, 
                                             ret_results=True, minperiod=minperiod,
-                                            maxperiod=maxperiod)
+                                            maxperiod=maxperiod, norm=norm)
             
             # 4a. Observed test statistic
             sobs = self.tstat(self.LS_results[1], id0)
@@ -403,9 +418,9 @@ class RV_Detection(object):
             S_null = self.tstat(Pf_null, id0)
                 
             pvals_m[i] = np.array([1.0/theta0, 
-                                   np.nanmean(S_null[S_null <= sobs]),
-                                   np.nanmean(S_null[S_null >= sobs]),
-                                   np.nanmean(S_null[S_null == sobs])])
+                                   np.nanmedian(S_null[S_null <= sobs]),
+                                   np.nanmedian(S_null[S_null >= sobs]),
+                                   np.nanmedian(S_null[S_null == sobs])])
 
         # Excludes intervals with values < assigned alpha
         inds = np.where(pvals_m[:,2] > alpha)
