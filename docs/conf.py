@@ -14,7 +14,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../'))
+sys.path.append('../')
 on_rtd = os.environ.get('READTHEDOCS', None) == 'True'
 
 
@@ -27,7 +27,7 @@ author = 'Adina D. Feinstein'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '0.0.4'
+release = '0.0.1'
 
 
 # -- General configuration ---------------------------------------------------
