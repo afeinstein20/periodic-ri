@@ -2,7 +2,7 @@
 
 API
 ===
-.. automodule:: scripts
+.. automodule:: periodic-ri
     :members:
 
 .. autoclass:: PeriodicRI
