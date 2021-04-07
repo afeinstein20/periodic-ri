@@ -1,45 +1,40 @@
-periodic-ri
-=====================================================
+.. periodic-ri documentation master file, created by
+   sphinx-quickstart on Mon Sep 17 11:56:28 2018.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
 
-periodic-ri an open source project for detecting periodic signals in data through
-random inference. This package is a Python implementation of the original [R code](https://github.com/ptoulis/ri-exoplanet-detection).
-The details of the algorithm can be found in the [Toulis & Bean (2021)](https://www.ptoulis.com/s/astro_main.pdf).
+periodic-ri: Detecting periodic signals via Randomization Inference
+===================================================================
 
-{:toc}
+periodic-ri is an open-source python framework for detecting periodic signals in astronomy data. This
+if the python implementation of the original code `written in R`_. The details of the methods can be found
+in `Touliis & Bean (2021)`_.
 
-Installation
-------------
+.. toctree::
+   :maxdepth: 1
+   :caption: Getting Started
 
-To install periodic-ri with pip:
-   
-    pip install
+   getting_started/about
+   getting_started/installation
 
-Alternatively you can install the current development version of periodic-ri:
+.. toctree::
+   :maxdepth: 2
+   :caption: Documentation
 
-    git clone https://github.com/afeinstein20/periodic-ri
-    cd periodic-ri
-    python setup.py install
-	    
+   api
 
-Demo
-----
+Bug Reports & Questions
+-----------------------
 
-A full demonstration of the package can be found here.
-
-
-
-Citations
----------
-
-If your work uses the periodic-ri software, please cite.
-
-
-Bug Reports, Questions, & Contributions
----------------------------------------
-
-periodic-ri is an open source project under the MIT license. The source code is available on [GitHub](https://github.com/afeinstein20/periodic-ri). In case of any questions or problems, please contact us via the [Git Issues](https://github.com/afeinstein20/periodic-ri/issues). Pull requests are also welcome through the GitHub page.
+periodic-ri is an open source project under the MIT license. The source code is available on `GitHub`_. In case of any questions or problems, please contact us via the `Git Issues`_.
 
 
 Index
 -----
-The API can be found [here](api.rst).
+
+* :ref:`genindex`
+
+.. _GitHub: http://github.com/afeinstein20/periodic-ri
+.. _Git Issues: http://github.com/afeinstein20/periodic-ri/issues
+.. _written in R: https://github.com/ptoulis/ri-exoplanet-detection
+.. _Toulis & Bean (2021): https://www.ptoulis.com/s/astro_main.pdf
