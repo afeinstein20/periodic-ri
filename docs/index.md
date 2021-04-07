@@ -42,4 +42,4 @@ periodic-ri is an open source project under the MIT license. The source code is 
 
 Index
 -----
-
+The API can be found [here](api.rst).
