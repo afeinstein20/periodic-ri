@@ -7,14 +7,14 @@ import os
 import sys
 from setuptools import setup
 
-sys.path.insert(0, "rvs-by-ri")
+sys.path.insert(0, "periodic-ri")
 from version import __version__
 
 
 long_description = \
     """
-A python implementation of randomization inference to detect exoplanets
-in radial velocity data.
+A python implementation of randomization inference to detect periodic
+signals in astronomy data sets.
 
 """
 
@@ -23,14 +23,14 @@ with open('requirements.txt') as f:
 
 setup(name='', # we need a name
       version=__version__,
-      description='Detecting exoplanets in RV data', 
-      packages=['taylorswift'],
+      description='Detecting periodic signals in astronomy data', 
+      packages=['periodic-ri'],
       install_requires=install_requires,
       author='Adina Feinstein',
       author_email='adina.d.feinstein@gmail.com',
       license='MIT',
       long_description = long_description,
-      url='https://github.com/afeinstein20/rvs-by-ri',
+      url='https://github.com/afeinstein20/periodic-ri',
       package_data={'': ['README.md', 'LICENSE']},
       include_package_data=True,
       classifiers=[
