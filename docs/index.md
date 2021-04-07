@@ -20,10 +20,11 @@ Alternatively you can install the current development version of periodic-ri:
     python setup.py install
 	    
 
-[Demo](demo.html)
+Demo
 ----
 
-.. include::demo.ipynb
+A full demonstration of the package can be found here.
+
 
 
 Citations
