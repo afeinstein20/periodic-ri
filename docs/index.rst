@@ -16,6 +16,7 @@ in `Toulis & Bean (2021)`_.
 
    getting_started/about
    getting_started/installation
+   getting_started/demo.ipynb
 
 .. toctree::
    :maxdepth: 2
