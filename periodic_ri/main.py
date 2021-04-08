@@ -82,7 +82,6 @@ class PeriodicRI(object):
         if y is None:
             y = self.df['Vel']+0.0
             
-
         if norm == 'astropy':
             results = LombScargle(self.df['Time'], y,
                                   dy=self.df['Err'],
@@ -220,25 +219,27 @@ class PeriodicRI(object):
         np.random.seed(123)
 
         n = len(self.df)
+        shape = (null_samples, n)
 
         # 1. Fit y(t) ~ X + Per(theta0, t) + eta(t)
         fit = self.fit_weighted(add_P=np.array([theta0]))
         Yhat0 = fit['yhat']
 
         # Residuals under H0
-        e0 = self.df['Vel'] - Yhat0
+        e0 = np.full(shape, self.df['Vel'] - Yhat0)
+
         signs = np.append(np.full(int(n/2), -1), np.full(int(n/2), 1))
         if len(signs) < n:
             signs = np.append(signs, np.full(int(n-len(signs)), 1))
 
+        e = np.random.choice(signs, size=shape) * e0
+        y_new = np.full(shape, Yhat0) + e
 
         # Only assume symmetric errors
         for i in range(null_samples):
-            e = np.random.choice(signs, size=len(signs), replace=False) * e0
-            y_new = Yhat0 + e
 
             # 2. Lomb-Scargle periodogram
-            out,_,_ = self.lomb_scargle(y=y_new, 
+            out,_,_ = self.lomb_scargle(y=y_new[i],
                                         minperiod=minperiod,
                                         maxperiod=maxperiod,
                                         ret_results=True,
@@ -357,7 +358,7 @@ class PeriodicRI(object):
 
 
     def build_confidence_set(self, alpha=0.01, null_samples=100, norm='astropy',
-                             minperiod=0.5, maxperiod=50.0, time_budget=1.0):
+                             min_thresh=0.1, minperiod=0.5, maxperiod=50.0, time_budget=1.0):
         """
         Main methood that builds a confidence set $\theta_{1-\alpha}$ in
         Equations (7) and (12) of Toulis & Bean (2021). Defines the minimum
@@ -373,6 +374,9 @@ class PeriodicRI(object):
            Minimum period to search over. Default = 0.5 days.
         maxperiod : float, optional
            Maximum period to search over. Default = 50 days.
+        min_thresh : float, optional
+           Minimum power threshold to search periodogram over.
+           Default = 0.1.
         norm : str, optional 
            Sets the normalization for the periodogram. Default is 'astropy',
            which uses the astropy.timeseries.LombScargle function. Other 
@@ -404,7 +408,7 @@ class PeriodicRI(object):
         rate = np.nanmean(ls_times)
 
         # Finds the best threshold to search over given the time budget
-        all_thresholds = np.linspace(0.1,0.8,50)
+        all_thresholds = np.linspace(min_thresh,0.8,50)
         threshold_lens = np.zeros(len(all_thresholds))
         for i in range(len(all_thresholds)):
             x, _ = self.get_candidate_periods(threshold=all_thresholds[i])
