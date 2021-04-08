@@ -433,8 +433,6 @@ class PeriodicRI(object):
 
             # 4b. Null distribution
             S_null = self.tstat(Pf_null, id0)
-            print(S_null)
-            
             
             pvals_m[i] = np.array([1.0/theta0, 
                                    len(np.where(S_null <= sobs)[0]) / len(S_null),
