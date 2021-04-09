@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Quickstart Tutorial &mdash; periodic-ri 0.0.1 documentation</title>
+  <title>Example with RVs – 51 Pegasi b &mdash; periodic-ri 0.0.1 documentation</title>
   
 
   
@@ -85,7 +85,12 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="about.html">About periodic-ri</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Quickstart Tutorial</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Example with RVs – 51 Pegasi b</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#Example-with-Light-Curves-–-Rotation-Periods">Example with Light Curves – Rotation Periods</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#TESS-2-minute-Light-Curves">TESS 2-minute Light Curves</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#TESS-30-minute-Light-Curves">TESS 30-minute Light Curves</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption"><span class="caption-text">Documentation</span></p>
 <ul>
@@ -121,7 +126,7 @@
     <li><a href="../index.html">periodic-ri</a> &raquo;</li>
       
     
-      <li>Quickstart Tutorial</li>
+      <li>Example with RVs – 51 Pegasi b</li>
     
       <li class="wy-breadcrumbs-aside">
         
@@ -356,15 +361,12 @@ div.rendered_html tbody tr:hover {
     text-align: unset;
 }
 </style>
-<div class="section" id="Quickstart-Tutorial">
-<h1>Quickstart Tutorial<a class="headerlink" href="#Quickstart-Tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[173]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">lmfit</span><span class="o">,</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">lmfit</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span>
@@ -373,24 +375,22 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">least_squares</span>
 <span class="kn">from</span> <span class="nn">astropy.timeseries</span> <span class="k">import</span> <span class="n">LombScargle</span>
+<span class="kn">import</span> <span class="nn">lightkurve</span>
 <span class="kn">from</span> <span class="nn">lightkurve.lightcurve</span> <span class="k">import</span> <span class="n">LightCurve</span> <span class="k">as</span> <span class="n">LC</span>
 
-<span class="kn">from</span> <span class="nn">scripts</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">periodic_ri</span> <span class="k">import</span> <span class="o">*</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;/Users/arcticfox/Documents/GitHub/eleanor/&#39;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">eleanor</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-WARNING: leap-second auto-update failed due to the following exception: ValueError(&#34;Malformed URL: &#39;//anaconda3/lib/python3.7/site-packages/astropy/utils/iers/data/Leap_Second.dat&#39;&#34;) [astropy.time.core]
-</pre></div></div>
-</div>
+<div class="section" id="Example-with-RVs-–-51-Pegasi-b">
+<h1>Example with RVs – 51 Pegasi b<a class="headerlink" href="#Example-with-RVs-–-51-Pegasi-b" title="Permalink to this headline">¶</a></h1>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[207]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -400,16 +400,16 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[208]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">rvs</span> <span class="o">=</span> <span class="n">RV_Detection</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">vel</span><span class="o">=</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">err</span><span class="o">=</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
+<span></span><span class="n">rvs</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[209]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -428,285 +428,14 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <img alt="../_images/getting_started_demo_4_0.png" src="../_images/getting_started_demo_4_0.png" />
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">rvs</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1">#rvs.gls_periodogram(norm=&#39;Scargle&#39;)</span>
-<span class="n">rvs</span><span class="o">.</span><span class="n">lomb_scargle</span><span class="p">()</span><span class="c1">#norm=&#39;Scargle&#39;)</span>
-</pre></div>
-</div>
-</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[210]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mf">4.1</span><span class="p">,</span><span class="mf">4.5</span><span class="p">)</span>
+<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">20.0</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>(4.1, 4.5)
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../_images/getting_started_demo_7_1.png" src="../_images/getting_started_demo_7_1.png" />
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">null_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-  0%|          | 0/7 [00:00&lt;?, ?it/s]//anaconda3/lib/python3.7/site-packages/numpy/lib/nanfunctions.py:1111: RuntimeWarning: Mean of empty slice
-  return np.nanmean(a, axis, out=out, keepdims=keepdims)
- 14%|█▍        | 1/7 [00:07&lt;00:44,  7.49s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[1.05543915 1.1223563  1.1411412  1.1176123  1.08420448 1.23364317
- 1.18609701 1.15246074 1.2316898  1.14337506 1.06506277 1.09446341
- 1.03161697 1.15377323 1.06642763 1.10446477 1.10848885 1.04630345
- 1.053987   1.16379619 1.13612945 1.0639554  1.13421328 1.15954287
- 1.0734002  1.07388714 1.16737744 1.06806241 1.20406859 1.11803296
- 1.12759687 1.15140322 1.1668742  1.01942274 1.140659   1.15581743
- 1.28886868 1.17105576 1.18629165 1.21795689 1.13695025 1.18885023
- 1.06843682 1.10562951 1.20190943 1.09827429 1.22847595 1.16578055
- 0.98580607 1.14014331 1.13693459 1.19318346 1.21857452 1.12299656
- 1.07474963 1.16888646 1.08828965 1.0637789  1.17892317 1.06059527
- 1.12354372 1.21931559 1.23081578 1.20451946 1.12728694 1.20903591
- 1.08471885 1.20728479 1.17892721 1.07708278 1.1040201  1.0923787
- 1.01967821 1.06525468 1.1238092  1.16663759 1.0853257  1.1241849
- 1.14283087 1.19975744 1.16119856 0.98517659 1.05365674 1.07252806
- 1.20812732 1.07453438 1.10012485 1.17104089 1.20764875 1.20121051
- 1.19740455 1.24619912 1.03993245 1.25440459 1.0746663  1.25453115
- 1.05226966 1.07944541 1.05519329 1.13006403]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- 29%|██▊       | 2/7 [00:14&lt;00:37,  7.48s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[0.96678195 1.04041436 1.03322538 1.0289071  0.94805876 1.07674905
- 1.07636095 1.0304249  1.06016576 1.05375386 0.88262802 0.98566798
- 0.93728727 0.97556474 1.01042195 1.00761727 1.01037923 0.97784449
- 0.94209378 1.00778806 1.03181396 0.91300768 1.02177636 1.02653694
- 1.00471902 0.99692758 0.96340395 0.98142563 1.09587557 0.95169295
- 0.96421525 1.02287008 1.06793568 0.98013759 0.96877252 1.01973655
- 1.08491553 1.01282344 1.02176666 1.04891872 0.93301375 1.1324207
- 0.97207121 1.04440641 1.11324577 0.9945444  1.13328851 1.0846053
- 0.98958159 1.03973301 1.0237274  1.01064426 1.10011022 1.05466876
- 0.92095048 1.1201508  0.99252401 0.97314421 1.03362383 0.98801028
- 0.96790161 1.10383156 1.05146652 1.01216064 1.03202623 1.07592862
- 1.03995679 1.09882222 1.06990908 0.97457164 0.99137128 0.96395734
- 1.06776776 0.98510133 0.94445118 0.96645899 0.90623219 1.00817079
- 0.94156457 1.02888891 1.03297691 1.00843551 0.97553319 0.89837563
- 1.09515783 0.98931026 0.9226708  0.97154049 1.11061307 1.01671703
- 1.09700706 1.08450171 0.94970827 1.16029293 1.03499867 1.08833241
- 0.95793427 0.97643108 1.03079763 0.98136469]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- 43%|████▎     | 3/7 [00:22&lt;00:29,  7.47s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[1.16459219 1.19376325 1.18203821 1.24427498 1.17897475 1.247424
- 1.24097465 1.25875442 1.27183761 1.25626324 1.09478136 1.13700183
- 1.19565044 1.20245494 1.13540612 1.23410971 1.15728755 1.19401282
- 1.15286274 1.20840525 1.31731317 1.11337004 1.24176267 1.24162095
- 1.17153026 1.15194139 1.27571738 1.13044514 1.34278253 1.21470024
- 1.21502687 1.18188799 1.25004498 1.10104809 1.19135963 1.24490771
- 1.34590907 1.31168492 1.23510411 1.31602076 1.28595237 1.27355797
- 1.11334893 1.22122202 1.26618836 1.08251255 1.29207263 1.24016966
- 1.06557016 1.22065537 1.21771834 1.32116138 1.23982905 1.17867462
- 1.13569816 1.25886763 1.10712807 1.12081505 1.22567877 1.13832073
- 1.15393175 1.25436129 1.27835764 1.27599769 1.23481442 1.25816195
- 1.13426398 1.32497069 1.27809397 1.18974519 1.19581315 1.2038825
- 1.20864374 1.13439615 1.19471575 1.23815156 1.1693337  1.22925874
- 1.17064876 1.21662513 1.20171211 1.07950358 1.10130636 1.16864905
- 1.3037383  1.18900112 1.12323947 1.22441137 1.31626364 1.24251215
- 1.29588513 1.2954014  1.14094328 1.33427096 1.17693762 1.33244326
- 1.14528829 1.16222389 1.17403723 1.21053764]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- 57%|█████▋    | 4/7 [00:30&lt;00:22,  7.60s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[0.00272533 0.         0.01161521 0.01309877 0.00275144 0.00357312
- 0.00163222 0.00170189 0.         0.0102603  0.         0.00265013
- 0.00333274 0.00291461 0.         0.00430825 0.00227839 0.00327782
- 0.0055931  0.         0.         0.00952959 0.00043205 0.00176795
- 0.00192417 0.01043446 0.00080384 0.00578169 0.00970987 0.01720633
- 0.00033072 0.00459491 0.         0.         0.00100658 0.
- 0.00349178 0.         0.00595463 0.00156665 0.00130915 0.00253405
- 0.         0.00317426 0.         0.00184713 0.         0.00406545
- 0.00119911 0.00072239 0.         0.00424283 0.         0.00149684
- 0.         0.00055593 0.00510085 0.00691039 0.00339461 0.00537076
- 0.         0.         0.         0.00028567 0.00190138 0.
- 0.00571876 0.         0.00353518 0.         0.00484244 0.00274946
- 0.00763703 0.         0.0061501  0.0007264  0.00556553 0.
- 0.         0.         0.         0.00918226 0.         0.
- 0.01131481 0.         0.0021639  0.00658688 0.00091834 0.00209804
- 0.00361193 0.00093969 0.00096476 0.         0.00317495 0.
- 0.00530226 0.00041515 0.00078594 0.00495784]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- 71%|███████▏  | 5/7 [00:37&lt;00:15,  7.56s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[1.11606145 1.17693122 1.16790438 1.18440488 1.12455122 1.26452099
- 1.22986063 1.19995843 1.23440573 1.18101278 1.09935367 1.13878994
- 1.1253818  1.20936677 1.11790224 1.18852864 1.16144736 1.144886
- 1.08469819 1.21685108 1.22326023 1.05274929 1.21106872 1.20259824
- 1.14125818 1.08853691 1.19161207 1.0807031  1.3105212  1.13236929
- 1.14397542 1.11487277 1.16371872 1.05263074 1.19026815 1.22221187
- 1.31954342 1.24218009 1.17934995 1.24640487 1.26367633 1.22681801
- 1.13497055 1.15616332 1.20390486 1.05446423 1.2554874  1.19879307
- 1.04588678 1.19716497 1.19413089 1.23395354 1.23066111 1.17037368
- 1.13030578 1.21847236 1.06727007 1.11870386 1.23655879 1.12308048
- 1.18627704 1.24273819 1.22237189 1.25803377 1.22705859 1.26325413
- 1.13873977 1.34412328 1.25691768 1.13502249 1.12088119 1.17626042
- 1.1412432  1.16778818 1.15751215 1.22938531 1.12999921 1.15371946
- 1.17169382 1.21699904 1.20126578 1.07094863 1.1278374  1.11976263
- 1.25892042 1.12012107 1.11890474 1.16983795 1.25257098 1.20931605
- 1.21921474 1.22781309 1.09469574 1.24751123 1.14077507 1.29875023
- 1.09827678 1.14603365 1.17610447 1.15571282]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
- 86%|████████▌ | 6/7 [00:45&lt;00:07,  7.54s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[0.96595869 1.02022038 1.12582396 1.02565169 1.00243258 1.13269126
- 1.06467636 1.04470224 1.11875083 1.07814489 0.98425178 1.04784465
- 1.01669618 1.12555775 1.02761452 1.08550681 1.09978262 1.08508114
- 0.99349557 1.03985568 1.04472089 0.94079641 1.08971181 1.08784784
- 1.0643266  0.96525294 0.98180402 1.02094538 1.15600015 1.07324962
- 0.97367551 1.01256256 1.08270743 1.04531315 1.00741535 0.96529066
- 1.11061144 1.09596797 1.08205256 1.13374496 1.18373104 1.08829253
- 1.00595864 1.08576932 1.16197289 0.97950392 1.09977736 1.0802389
- 0.9196517  1.03689294 1.08623755 1.07586581 1.18584597 1.09131559
- 0.98811564 1.06029725 1.05095643 0.98689096 1.10728397 1.07816548
- 0.99435135 1.13278147 1.1369683  1.08166945 1.10406345 1.08140226
- 1.10246752 1.18025127 1.17301633 1.02879627 1.04565633 1.03390472
- 1.06568243 0.98229395 1.1180814  1.05196707 1.07074543 1.04171164
- 1.01231185 1.04480303 1.06162098 1.00222773 0.99059321 0.96951557
- 1.08897098 0.99572997 1.00167775 1.07473773 1.06320482 1.09028475
- 1.10678978 1.12045125 1.02001364 1.13196593 1.0198668  1.09383502
- 1.00717515 1.04659981 1.04911881 1.01173581]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-100%|██████████| 7/7 [00:52&lt;00:00,  7.54s/it]
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-[1.09555149 1.17092774 1.13826772 1.15944904 1.14217545 1.2245419
- 1.22122377 1.22188339 1.28692813 1.211643   1.05657055 1.15870383
- 1.13332768 1.16724944 1.07012899 1.11123715 1.13390451 1.12704608
- 1.07545445 1.17265538 1.24508778 1.16107627 1.19351121 1.20644562
- 1.09055674 1.12680412 1.14660262 1.09752613 1.26744029 1.1305819
- 1.20734532 1.18357495 1.16261173 1.11390632 1.18392333 1.19279764
- 1.25349819 1.22863443 1.13664813 1.22071472 1.19154763 1.17607668
- 1.14189539 1.14305874 1.24149121 1.15695522 1.24501555 1.17737688
- 1.06416063 1.18216567 1.16526422 1.18637919 1.20466329 1.18050407
- 1.06961932 1.2356626  1.1180541  1.08387355 1.18526196 1.1318452
- 1.10440453 1.27059301 1.27269743 1.25154577 1.17306963 1.21455688
- 1.0903688  1.28430299 1.20567374 1.06580216 1.1388326  1.12172502
- 1.11907822 1.09787774 1.19221522 1.15358451 1.10901376 1.15678975
- 1.13975779 1.18596534 1.21122396 1.0583148  1.09684757 1.11627276
- 1.23535458 1.10358226 1.09182332 1.14034525 1.19375409 1.1273946
- 1.22691062 1.20704841 1.08002695 1.24660468 1.12380513 1.26506767
- 1.11074336 1.06690058 1.13422593 1.17365436]
-</pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -714,10 +443,17 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
 
+  0%|          | 0/6 [00:00&lt;?, ?it/s]
+ 17%|█▋        | 1/6 [00:08&lt;00:43,  8.64s/it]
+ 33%|███▎      | 2/6 [00:15&lt;00:32,  8.25s/it]
+ 50%|█████     | 3/6 [00:23&lt;00:23,  7.93s/it]
+ 67%|██████▋   | 4/6 [00:30&lt;00:15,  7.74s/it]
+ 83%|████████▎ | 5/6 [00:37&lt;00:07,  7.60s/it]
+100%|██████████| 6/6 [00:44&lt;00:00,  7.49s/it]
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[211]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -736,36 +472,11 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/getting_started_demo_9_0.png" src="../_images/getting_started_demo_9_0.png" />
+<img alt="../_images/getting_started_demo_6_0.png" src="../_images/getting_started_demo_6_0.png" />
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="c1"># columns = theta, S_null &lt;= sobs, S_null &gt;= sobs, S_null = sobs</span>
-<span class="n">rvs</span><span class="o">.</span><span class="n">pvals_m</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
-</pre></div>
-</div>
-<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>array([[4.93241378e+00, 1.13213866e+00,            nan,            nan],
-       [4.28186847e+00, 1.01140245e+00,            nan,            nan],
-       [4.23853381e+00, 1.21261894e+00,            nan,            nan],
-       [4.23075879e+00, 0.00000000e+00, 1.66705445e-03, 0.00000000e+00],
-       [4.22312114e+00, 1.17659582e+00,            nan,            nan],
-       [4.18106833e+00, 1.06241290e+00,            nan,            nan],
-       [3.70319896e+00, 1.16026265e+00,            nan,            nan]])
-</pre></div>
-</div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[212]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -774,16 +485,16 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[212]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>array([], dtype=float64)
+<span></span>array([4.23073436])
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[213]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -792,16 +503,16 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[213]:
 </pre></div>
 </div>
 <div class="output_area highlight-none notranslate"><div class="highlight"><pre>
-<span></span>4.230758786999776
+<span></span>4.230734357127434
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[214]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -820,7 +531,7 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[215]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
@@ -836,15 +547,47 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="../_images/getting_started_demo_14_0.png" src="../_images/getting_started_demo_14_0.png" />
+<img alt="../_images/getting_started_demo_10_0.png" src="../_images/getting_started_demo_10_0.png" />
 </div>
 </div>
+</div>
+<div class="section" id="Example-with-Light-Curves-–-Rotation-Periods">
+<h1>Example with Light Curves – Rotation Periods<a class="headerlink" href="#Example-with-Light-Curves-–-Rotation-Periods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="TESS-2-minute-Light-Curves">
+<h2>TESS 2-minute Light Curves<a class="headerlink" href="#TESS-2-minute-Light-Curves" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">test_period_theta0</span><span class="p">(</span><span class="n">theta0</span><span class="o">=</span><span class="mf">4.1</span><span class="p">)</span>
+<span></span><span class="n">lc</span> <span class="o">=</span> <span class="n">lightkurve</span><span class="o">.</span><span class="n">search_lightcurvefile</span><span class="p">(</span><span class="s1">&#39;TIC 44678751&#39;</span><span class="p">,</span> <span class="n">mission</span><span class="o">=</span><span class="s1">&#39;TESS&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;SPOC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="n">lc</span> <span class="o">=</span> <span class="n">lc</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">remove_nans</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lc</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized Flux&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+//anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:1: LightkurveDeprecationWarning: The search_lightcurvefile function is deprecated and may be removed in a future version.
+        Use search_lightcurve() instead.
+  &#34;&#34;&#34;Entry point for launching an IPython kernel.
+//anaconda3/lib/python3.7/site-packages/lightkurve/search.py:352: LightkurveWarning: Warning: 4 files available to download. Only the first file has been downloaded. Please use `download_all()` or specify additional criteria (e.g. quarter, campaign, or sector) to limit your search.
+  LightkurveWarning,
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Text(0, 0.5, &#39;Normalized Flux&#39;)
 </pre></div>
 </div>
 </div>
@@ -852,93 +595,322 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-15-7eea70b098fa&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-fg">----&gt; 1</span><span class="ansi-red-fg"> </span>rvs<span class="ansi-blue-fg">.</span>test_period_theta0<span class="ansi-blue-fg">(</span>theta0<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">4.1</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">~/Documents/GitHub/rvs-by-ri/scripts/main.py</span> in <span class="ansi-cyan-fg">test_period_theta0</span><span class="ansi-blue-fg">(self, theta0, minperiod, maxperiod, null_samples, norm)</span>
-<span class="ansi-green-intense-fg ansi-bold">    307</span>         self.null_periodogram(theta0=theta0, minperiod=minperiod,
-<span class="ansi-green-intense-fg ansi-bold">    308</span>                               maxperiod<span class="ansi-blue-fg">=</span>maxperiod<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 309</span><span class="ansi-red-fg">                               null_samples=null_samples)
-</span><span class="ansi-green-intense-fg ansi-bold">    310</span>
-<span class="ansi-green-intense-fg ansi-bold">    311</span>         <span class="ansi-red-fg"># 4a. Observed test statistic</span>
-
-<span class="ansi-green-fg">~/Documents/GitHub/rvs-by-ri/scripts/main.py</span> in <span class="ansi-cyan-fg">null_periodogram</span><span class="ansi-blue-fg">(self, theta0, minperiod, maxperiod, norm, null_samples, verbose, ret_results)</span>
-<span class="ansi-green-intense-fg ansi-bold">    236</span>                                         maxperiod<span class="ansi-blue-fg">=</span>maxperiod<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    237</span>                                         ret_results<span class="ansi-blue-fg">=</span><span class="ansi-green-fg">True</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 238</span><span class="ansi-red-fg">                                         norm=norm)
-</span><span class="ansi-green-intense-fg ansi-bold">    239</span>
-<span class="ansi-green-intense-fg ansi-bold">    240</span>             <span class="ansi-red-fg"># Creates S_null array</span>
-
-<span class="ansi-green-fg">~/Documents/GitHub/rvs-by-ri/scripts/main.py</span> in <span class="ansi-cyan-fg">lomb_scargle</span><span class="ansi-blue-fg">(self, y, minperiod, maxperiod, norm, ret_results)</span>
-<span class="ansi-green-intense-fg ansi-bold">     87</span>                                                                  maximum_frequency<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">1.0</span><span class="ansi-blue-fg">/</span>minperiod<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span>                                                                  samples_per_peak<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">50.0</span><span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">---&gt; 89</span><span class="ansi-red-fg">                                                                  normalization=&#39;log&#39;)
-</span><span class="ansi-green-intense-fg ansi-bold">     90</span>         <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     91</span>             gls = Gls(lc=[self.df[&#39;Time&#39;],
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/astropy/timeseries/periodograms/lombscargle/core.py</span> in <span class="ansi-cyan-fg">autopower</span><span class="ansi-blue-fg">(self, method, method_kwds, normalization, samples_per_peak, nyquist_factor, minimum_frequency, maximum_frequency)</span>
-<span class="ansi-green-intense-fg ansi-bold">    300</span>                            normalization<span class="ansi-blue-fg">=</span>normalization<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    301</span>                            method<span class="ansi-blue-fg">=</span>method<span class="ansi-blue-fg">,</span> method_kwds<span class="ansi-blue-fg">=</span>method_kwds<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 302</span><span class="ansi-red-fg">                            assume_regular_frequency=True)
-</span><span class="ansi-green-intense-fg ansi-bold">    303</span>         <span class="ansi-green-fg">return</span> frequency<span class="ansi-blue-fg">,</span> power
-<span class="ansi-green-intense-fg ansi-bold">    304</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/astropy/timeseries/periodograms/lombscargle/core.py</span> in <span class="ansi-cyan-fg">power</span><span class="ansi-blue-fg">(self, frequency, normalization, method, assume_regular_frequency, method_kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">    362</span>                             normalization<span class="ansi-blue-fg">=</span>normalization<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    363</span>                             method<span class="ansi-blue-fg">=</span>method<span class="ansi-blue-fg">,</span> method_kwds<span class="ansi-blue-fg">=</span>method_kwds<span class="ansi-blue-fg">,</span>
-<span class="ansi-green-fg">--&gt; 364</span><span class="ansi-red-fg">                             assume_regular_frequency=assume_regular_frequency)
-</span><span class="ansi-green-intense-fg ansi-bold">    365</span>         <span class="ansi-green-fg">return</span> power <span class="ansi-blue-fg">*</span> self<span class="ansi-blue-fg">.</span>_power_unit<span class="ansi-blue-fg">(</span>normalization<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    366</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/astropy/timeseries/periodograms/lombscargle/implementations/main.py</span> in <span class="ansi-cyan-fg">lombscargle</span><span class="ansi-blue-fg">(t, y, dy, frequency, method, assume_regular_frequency, normalization, fit_mean, center_data, method_kwds, nterms)</span>
-<span class="ansi-green-intense-fg ansi-bold">    214</span>                              &#34;or &#39;fastchi2&#39; methods&#34;)
-<span class="ansi-green-intense-fg ansi-bold">    215</span>
-<span class="ansi-green-fg">--&gt; 216</span><span class="ansi-red-fg">     </span>PLS <span class="ansi-blue-fg">=</span> METHODS<span class="ansi-blue-fg">[</span>method<span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">*</span>args<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwds<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    217</span>     <span class="ansi-green-fg">return</span> PLS<span class="ansi-blue-fg">.</span>reshape<span class="ansi-blue-fg">(</span>output_shape<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/astropy/timeseries/periodograms/lombscargle/implementations/fast_impl.py</span> in <span class="ansi-cyan-fg">lombscargle_fast</span><span class="ansi-blue-fg">(t, y, dy, f0, df, Nf, center_data, fit_mean, normalization, use_fft, trig_sum_kwds)</span>
-<span class="ansi-green-intense-fg ansi-bold">     87</span>     <span class="ansi-red-fg"># 1. compute functions of the time-shift tau at each frequency</span>
-<span class="ansi-green-intense-fg ansi-bold">     88</span>     Sh<span class="ansi-blue-fg">,</span> Ch <span class="ansi-blue-fg">=</span> trig_sum<span class="ansi-blue-fg">(</span>t<span class="ansi-blue-fg">,</span> w <span class="ansi-blue-fg">*</span> y<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-fg">---&gt; 89</span><span class="ansi-red-fg">     </span>S2<span class="ansi-blue-fg">,</span> C2 <span class="ansi-blue-fg">=</span> trig_sum<span class="ansi-blue-fg">(</span>t<span class="ansi-blue-fg">,</span> w<span class="ansi-blue-fg">,</span> freq_factor<span class="ansi-blue-fg">=</span><span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">**</span>kwargs<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     90</span>
-<span class="ansi-green-intense-fg ansi-bold">     91</span>     <span class="ansi-green-fg">if</span> fit_mean<span class="ansi-blue-fg">:</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/astropy/timeseries/periodograms/lombscargle/implementations/utils.py</span> in <span class="ansi-cyan-fg">trig_sum</span><span class="ansi-blue-fg">(t, h, df, N, f0, freq_factor, oversampling, use_fft, Mfft)</span>
-<span class="ansi-green-intense-fg ansi-bold">    144</span>         grid <span class="ansi-blue-fg">=</span> extirpolate<span class="ansi-blue-fg">(</span>tnorm<span class="ansi-blue-fg">,</span> h<span class="ansi-blue-fg">,</span> Nfft<span class="ansi-blue-fg">,</span> Mfft<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    145</span>
-<span class="ansi-green-fg">--&gt; 146</span><span class="ansi-red-fg">         </span>fftgrid <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>fft<span class="ansi-blue-fg">.</span>ifft<span class="ansi-blue-fg">(</span>grid<span class="ansi-blue-fg">)</span><span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span>N<span class="ansi-blue-fg">]</span>
-<span class="ansi-green-intense-fg ansi-bold">    147</span>         <span class="ansi-green-fg">if</span> t0 <span class="ansi-blue-fg">!=</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    148</span>             f <span class="ansi-blue-fg">=</span> f0 <span class="ansi-blue-fg">+</span> df <span class="ansi-blue-fg">*</span> np<span class="ansi-blue-fg">.</span>arange<span class="ansi-blue-fg">(</span>N<span class="ansi-blue-fg">)</span>
-
-<span class="ansi-green-fg">&lt;__array_function__ internals&gt;</span> in <span class="ansi-cyan-fg">ifft</span><span class="ansi-blue-fg">(*args, **kwargs)</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/numpy/fft/_pocketfft.py</span> in <span class="ansi-cyan-fg">ifft</span><span class="ansi-blue-fg">(a, n, axis, norm)</span>
-<span class="ansi-green-intense-fg ansi-bold">    279</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">    280</span>         inv_norm <span class="ansi-blue-fg">=</span> n
-<span class="ansi-green-fg">--&gt; 281</span><span class="ansi-red-fg">     </span>output <span class="ansi-blue-fg">=</span> _raw_fft<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> n<span class="ansi-blue-fg">,</span> axis<span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> <span class="ansi-green-fg">False</span><span class="ansi-blue-fg">,</span> inv_norm<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    282</span>     <span class="ansi-green-fg">return</span> output
-<span class="ansi-green-intense-fg ansi-bold">    283</span>
-
-<span class="ansi-green-fg">//anaconda3/lib/python3.7/site-packages/numpy/fft/_pocketfft.py</span> in <span class="ansi-cyan-fg">_raw_fft</span><span class="ansi-blue-fg">(a, n, axis, is_real, is_forward, inv_norm)</span>
-<span class="ansi-green-intense-fg ansi-bold">     72</span>
-<span class="ansi-green-intense-fg ansi-bold">     73</span>     <span class="ansi-green-fg">if</span> axis <span class="ansi-blue-fg">==</span> a<span class="ansi-blue-fg">.</span>ndim<span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-fg">---&gt; 74</span><span class="ansi-red-fg">         </span>r <span class="ansi-blue-fg">=</span> pfi<span class="ansi-blue-fg">.</span>execute<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> is_real<span class="ansi-blue-fg">,</span> is_forward<span class="ansi-blue-fg">,</span> fct<span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     75</span>     <span class="ansi-green-fg">else</span><span class="ansi-blue-fg">:</span>
-<span class="ansi-green-intense-fg ansi-bold">     76</span>         a <span class="ansi-blue-fg">=</span> swapaxes<span class="ansi-blue-fg">(</span>a<span class="ansi-blue-fg">,</span> axis<span class="ansi-blue-fg">,</span> <span class="ansi-blue-fg">-</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
-
-<span class="ansi-red-fg">KeyboardInterrupt</span>:
-</pre></div></div>
+<img alt="../_images/getting_started_demo_13_2.png" src="../_images/getting_started_demo_13_2.png" />
+</div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
-<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">S_null</span><span class="p">,</span> <span class="n">rvs</span><span class="o">.</span><span class="n">sobs</span>
+<span></span><span class="n">transit</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">lc</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux_err</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">lomb_scargle</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">transit</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transit</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x14cb80ba8&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/getting_started_demo_16_1.png" src="../_images/getting_started_demo_16_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">min_thresh</span><span class="o">=</span><span class="mf">0.06</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|          | 0/3 [00:00&lt;?, ?it/s]/Users/arcticfox/Documents/GitHub/periodic-ri/periodic_ri/main.py:164: RuntimeWarning: divide by zero encountered in log10
+  logL = np.nansum( np.log10(pdf) )
+//anaconda3/lib/python3.7/site-packages/scipy/optimize/optimize.py:697: RuntimeWarning: invalid value encountered in double_scalars
+  df = (f(*((xk + d,) + args)) - f0) / d[k]
+100%|██████████| 3/3 [00:05&lt;00:00,  1.83s/it]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">cset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([1.20143537])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">lc</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="n">transit</span><span class="o">.</span><span class="n">cset</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x14da476d8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/getting_started_demo_19_1.png" src="../_images/getting_started_demo_19_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="TESS-30-minute-Light-Curves">
+<h2>TESS 30-minute Light Curves<a class="headerlink" href="#TESS-30-minute-Light-Curves" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[180]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stars</span> <span class="o">=</span> <span class="n">eleanor</span><span class="o">.</span><span class="n">multi_sectors</span><span class="p">(</span><span class="n">tic</span><span class="o">=</span><span class="mi">220440079</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stars</span><span class="p">:</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eleanor</span><span class="o">.</span><span class="n">TargetData</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Found star in Sector(s) 9 10
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/arcticfox/Documents/GitHub/eleanor/eleanor/ffi.py:40: UserWarning: couldn&#39;t find pointing model
+  warnings.warn(&#34;couldn&#39;t find pointing model&#34;)
+/Users/arcticfox/Documents/GitHub/eleanor/eleanor/ffi.py:40: UserWarning: couldn&#39;t find pointing model
+  warnings.warn(&#34;couldn&#39;t find pointing model&#34;)
+WARNING: The &#34;exact&#34; method is not yet implemented for rectangular apertures -- using &#34;subpixel&#34; method with &#34;subpixels=32&#34; [photutils.aperture.core]
+WARNING: The &#34;exact&#34; method is not yet implemented for rectangular apertures -- using &#34;subpixel&#34; method with &#34;subpixels=32&#34; [photutils.aperture.core]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[181]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">quality</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+    <span class="n">normflux</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">corr_flux</span><span class="p">[</span><span class="n">q</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">corr_flux</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">normflux</span><span class="p">)</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flux_err</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">normflux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized Flux&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/getting_started_demo_22_0.png" src="../_images/getting_started_demo_22_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[182]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">lomb_scargle</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rotperiod</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+<span class="c1">#plt.ylim(0,0.05)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(0.0, 25.0)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/getting_started_demo_24_1.png" src="../_images/getting_started_demo_24_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[191]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+                               <span class="n">min_thresh</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">time_budget</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+  0%|          | 0/7 [00:00&lt;?, ?it/s]
+ 14%|█▍        | 1/7 [00:00&lt;00:03,  1.70it/s]
+ 29%|██▊       | 2/7 [00:01&lt;00:02,  1.70it/s]
+ 43%|████▎     | 3/7 [00:01&lt;00:02,  1.70it/s]
+ 57%|█████▋    | 4/7 [00:02&lt;00:01,  1.73it/s]
+ 71%|███████▏  | 5/7 [00:02&lt;00:01,  1.73it/s]
+ 86%|████████▌ | 6/7 [00:03&lt;00:00,  1.73it/s]
+100%|██████████| 7/7 [00:04&lt;00:00,  1.74it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[192]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[192]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([13.80230807,  6.6552094 ,  1.69269152,  1.49483808,  0.97148075])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[193]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">pvals_m</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[193]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[[13.80230807,  0.44      ,  1.        ,  0.44      ],
+        [ 6.6552094 ,  0.85      ,  0.15      ,  0.        ],
+        [ 1.69269152,  0.86      ,  0.14      ,  0.        ],
+        [ 1.49483808,  0.85      ,  0.15      ,  0.        ],
+        [ 0.97148075,  0.88      ,  0.12      ,  0.        ]]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[216]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span>
+                         <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">fold</span> <span class="o">=</span> <span class="n">LC</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="o">=</span><span class="n">flux</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fold</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">fold</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$P_</span><span class="si">{rot}</span><span class="s1"> = $&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[216]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(0.98, 1.02)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../_images/getting_started_demo_28_1.png" src="../_images/getting_started_demo_28_1.png" />
 </div>
 </div>
 <div class="nbinput nblast docutils container">
@@ -948,6 +920,7 @@ WARNING: leap-second auto-update failed due to the following exception: ValueErr
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
 <span></span>
 </pre></div>
+</div>
 </div>
 </div>
 </div>
