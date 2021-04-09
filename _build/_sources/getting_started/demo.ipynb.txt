@@ -1,6 +1,13 @@
 {
  "cells": [
   {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Quickstart Tutorial"
+   ]
+  },
+  {
    "cell_type": "code",
    "execution_count": 173,
    "metadata": {},
@@ -30,7 +37,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Example with RVs -- 51 Pegasi b"
+    "### Example with RVs -- 51 Pegasi b"
    ]
   },
   {
@@ -222,14 +229,14 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "## Example with Light Curves -- Rotation Periods"
+    "### Example with Light Curves -- Rotation Periods"
    ]
   },
   {
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### TESS 2-minute Light Curves"
+    "#### TESS 2-minute Light Curves"
    ]
   },
   {
@@ -406,7 +413,7 @@
    "cell_type": "markdown",
    "metadata": {},
    "source": [
-    "### TESS 30-minute Light Curves"
+    "#### TESS 30-minute Light Curves"
    ]
   },
   {
