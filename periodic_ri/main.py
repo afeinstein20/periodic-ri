@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
+from lightkurve import LightCurve
 from scipy.optimize import minimize
 from astropy.timeseries import LombScargle
 
@@ -448,3 +449,97 @@ class PeriodicRI(object):
         inds = np.where(pvals_m[:,2] > alpha)
         self.pvals_m = pvals_m[inds,:]
         self.cset = pvals_m[:,0][inds]
+
+
+    def rv_plot(self, ax=None):
+        """
+        Plots the radial velocity data as a matplotlib.pyplot.errorbar figure.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(14,4))
+            ax.set_xlabel('Time', fontsize=16)
+            ax.set_ylabel('RVs [km s$^{-1}$]', fontsize=16)
+
+        ax.errorbar(self.df['Time'], self.df['Vel'], yerr=self.df['Err'],
+                     marker='o', linestyle='', color='k')
+
+        return ax
+
+    def ls_plot(self, ax=None):
+        """
+        Plots the Lomb-Scargle periodogram and highlights peaks
+        in the data.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        
+        if ax is None:
+            fig, ax = plt.subplots(figsize=(14,4))
+            ax.set_xlabel('Period [days]', fontsize=16)
+            ax.set_ylabel('Power', fontsize=16)
+
+
+        ax.plot(1.0/self.LS_results[0], self.LS_results[1], 'k')
+        
+        _, peak_inds = self.get_candidate_periods()
+        ax.plot(1.0/self.LS_results[0][peak_inds],
+                 self.LS_results[1][peak_inds], 'darkorange',
+                 marker='*', ms=10, linestyle='')
+
+        return ax
+
+
+    def fold_rvs(self, period=None, plot=False, ax=None):
+        """
+        Uses lightkurve.LightCurve.fold() to fold the RVs
+        on a given period. Adds a column called "Phased_time"
+        to self.df.
+
+        Parameters
+        ----------
+        period : float, optional
+           The period on which to fold the data. Default is
+           the peak period from the Lomb-Scargle periodogram.
+        plot : bool, optional
+           Plots the folded RV data and errors. Default is False.
+
+        Returns
+        -------
+        matplotlib.figure.Figure
+        """
+        if period is None:
+            period = self.peak_period
+
+        lk = LightCurve(time=self.df['Time'],
+                        flux=self.df['Vel'],
+                        flux_err=self.df['Err'])
+
+        folded = lk.fold(period=period)
+        
+        if 'Phased_time' not in self.df.columns:
+            self.df.insert(3, "Phased_time", folded.time.value)
+        else:
+            self.df['Phased_time'] = folded.time.value
+
+        if plot:
+
+            if ax is None:
+                fig, ax = plt.subplots(figsize=(14,4))
+                ax.set_xlabel('Phase', fontsize=16)
+                ax.set_ylabel('RVs [km s$^{-1}$]', fontsize=16)
+            
+            ax.errorbar(self.df['Phased_time'],
+                         self.df['Vel'],
+                         yerr=self.df['Err'],
+                         marker='o', linestyle='',
+                         color='k')
+            
+            return ax
+        
