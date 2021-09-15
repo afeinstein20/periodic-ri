@@ -1,0 +1,986 @@
+
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Quickstart Tutorial &mdash; periodic-ri 0.0.1 documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="periodic-ri 0.0.1 documentation" href="../../index.html"/>  
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> periodic-ri
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About periodic-ri</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../demo.html">Quickstart Tutorial</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../index.html">periodic-ri</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">periodic-ri</a> &raquo;</li>
+      
+    
+      <li>Quickstart Tutorial</li>
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput,
+div.nbinput div.prompt,
+div.nbinput div.input_area,
+div.nbinput div[class*=highlight],
+div.nbinput div[class*=highlight] pre,
+div.nboutput,
+div.nbinput div.prompt,
+div.nbinput div.output_area,
+div.nboutput div[class*=highlight],
+div.nboutput div[class*=highlight] pre {
+    background: none;
+    border: none;
+    padding: 0 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+/* avoid gaps between output lines */
+div.nboutput div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput,
+div.nboutput {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput,
+    div.nboutput {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput div.prompt,
+div.nboutput div.prompt {
+    min-width: 5ex;
+    padding-top: 0.4em;
+    padding-right: 0.4em;
+    text-align: right;
+    flex: 0;
+}
+@media (max-width: 540px) {
+    div.nbinput div.prompt,
+    div.nboutput div.prompt {
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput div.prompt.empty {
+        padding: 0;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput div.prompt pre,
+div.nboutput div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput div.input_area,
+div.nboutput div.output_area {
+    padding: 0.4em;
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput div.input_area,
+    div.nboutput div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    background: #f5f5f5;
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast,
+.nboutput.nblast {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast + .nbinput {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<div class="section" id="Quickstart-Tutorial">
+<h1>Quickstart Tutorial<a class="headerlink" href="#Quickstart-Tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[173]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">lmfit</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">astropy</span> <span class="k">import</span> <span class="n">units</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">norm</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">minimize</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="k">import</span> <span class="n">least_squares</span>
+<span class="kn">from</span> <span class="nn">astropy.timeseries</span> <span class="k">import</span> <span class="n">LombScargle</span>
+<span class="kn">import</span> <span class="nn">lightkurve</span>
+<span class="kn">from</span> <span class="nn">lightkurve.lightcurve</span> <span class="k">import</span> <span class="n">LightCurve</span> <span class="k">as</span> <span class="n">LC</span>
+
+<span class="kn">from</span> <span class="nn">periodic_ri</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;font.size&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="s1">&#39;/Users/arcticfox/Documents/GitHub/eleanor/&#39;</span><span class="p">))</span>
+<span class="kn">import</span> <span class="nn">eleanor</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="Example-with-RVs-–-51-Pegasi-b">
+<h2>Example with RVs – 51 Pegasi b<a class="headerlink" href="#Example-with-RVs-–-51-Pegasi-b" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[207]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">datadir</span> <span class="o">=</span> <span class="s1">&#39;/Users/arcticfox/Documents/GitHub/ri-exoplanet-detection/datasets&#39;</span>
+<span class="n">dat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">datadir</span><span class="p">,</span> <span class="s1">&#39;51Pegb.txt&#39;</span><span class="p">),</span>  <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[208]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rvs</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">dat</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">1</span><span class="p">],</span> <span class="n">dat</span><span class="p">[:,</span><span class="mi">2</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[209]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Vel&#39;</span><span class="p">],</span> <span class="n">yerr</span><span class="o">=</span><span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Err&#39;</span><span class="p">],</span>
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [JD]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;RV [km/s]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_5_0.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_5_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[210]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">20.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+  0%|          | 0/6 [00:00&lt;?, ?it/s]
+ 17%|█▋        | 1/6 [00:08&lt;00:43,  8.64s/it]
+ 33%|███▎      | 2/6 [00:15&lt;00:32,  8.25s/it]
+ 50%|█████     | 3/6 [00:23&lt;00:23,  7.93s/it]
+ 67%|██████▋   | 4/6 [00:30&lt;00:15,  7.74s/it]
+ 83%|████████▎ | 5/6 [00:37&lt;00:07,  7.60s/it]
+100%|██████████| 6/6 [00:44&lt;00:00,  7.49s/it]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[211]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">peak_inds</span> <span class="o">=</span> <span class="n">rvs</span><span class="o">.</span><span class="n">get_candidate_periods</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">peak_inds</span><span class="p">],</span>
+         <span class="n">rvs</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">peak_inds</span><span class="p">],</span> <span class="s1">&#39;darkorange&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">,</span> <span class="n">ms</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Period [days]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Power&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_7_0.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_7_0.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[212]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">cset</span> <span class="c1">## This still isn&#39;t working for some reason</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[212]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([4.23073436])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[213]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rvs</span><span class="o">.</span><span class="n">peak_period</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[213]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>4.230734357127434
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[214]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">lk</span> <span class="o">=</span> <span class="n">LC</span><span class="p">(</span><span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Time&#39;</span><span class="p">],</span> <span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Vel&#39;</span><span class="p">],</span> <span class="n">flux_err</span><span class="o">=</span><span class="n">rvs</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;Err&#39;</span><span class="p">])</span>
+<span class="n">folded</span> <span class="o">=</span> <span class="n">lk</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="n">rvs</span><span class="o">.</span><span class="n">peak_period</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+//anaconda3/lib/python3.7/site-packages/lightkurve/lightcurve.py:202: LightkurveDeprecationWarning: passing flux as a positional argument is deprecated, please use ``flux=...`` instead.
+  LightkurveDeprecationWarning,
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[215]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span><span class="n">folded</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">folded</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="n">yerr</span><span class="o">=</span><span class="n">folded</span><span class="o">.</span><span class="n">flux_err</span><span class="p">,</span>
+             <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Phase&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;RV [km/s]&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_11_0.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="Example-with-Light-Curves-–-Rotation-Periods">
+<h2>Example with Light Curves – Rotation Periods<a class="headerlink" href="#Example-with-Light-Curves-–-Rotation-Periods" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="TESS-2-minute-Light-Curves">
+<h3>TESS 2-minute Light Curves<a class="headerlink" href="#TESS-2-minute-Light-Curves" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">lc</span> <span class="o">=</span> <span class="n">lightkurve</span><span class="o">.</span><span class="n">search_lightcurvefile</span><span class="p">(</span><span class="s1">&#39;TIC 44678751&#39;</span><span class="p">,</span> <span class="n">mission</span><span class="o">=</span><span class="s1">&#39;TESS&#39;</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;SPOC&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">download</span><span class="p">()</span>
+<span class="n">lc</span> <span class="o">=</span> <span class="n">lc</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span><span class="o">.</span><span class="n">remove_nans</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">lc</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized Flux&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+//anaconda3/lib/python3.7/site-packages/ipykernel_launcher.py:1: LightkurveDeprecationWarning: The search_lightcurvefile function is deprecated and may be removed in a future version.
+        Use search_lightcurve() instead.
+  &#34;&#34;&#34;Entry point for launching an IPython kernel.
+//anaconda3/lib/python3.7/site-packages/lightkurve/search.py:352: LightkurveWarning: Warning: 4 files available to download. Only the first file has been downloaded. Please use `download_all()` or specify additional criteria (e.g. quarter, campaign, or sector) to limit your search.
+  LightkurveWarning,
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[74]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>Text(0, 0.5, &#39;Normalized Flux&#39;)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_14_2.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_14_2.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[75]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">lc</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="n">lc</span><span class="o">.</span><span class="n">flux_err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[76]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">lomb_scargle</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">transit</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">transit</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[77]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>[&lt;matplotlib.lines.Line2D at 0x14cb80ba8&gt;]
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_17_1.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_17_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[78]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span> <span class="n">min_thresh</span><span class="o">=</span><span class="mf">0.06</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+  0%|          | 0/3 [00:00&lt;?, ?it/s]/Users/arcticfox/Documents/GitHub/periodic-ri/periodic_ri/main.py:164: RuntimeWarning: divide by zero encountered in log10
+  logL = np.nansum( np.log10(pdf) )
+//anaconda3/lib/python3.7/site-packages/scipy/optimize/optimize.py:697: RuntimeWarning: invalid value encountered in double_scalars
+  df = (f(*((xk + d,) + args)) - f0) / d[k]
+100%|██████████| 3/3 [00:05&lt;00:00,  1.83s/it]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">transit</span><span class="o">.</span><span class="n">cset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[79]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([1.20143537])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">lc</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="n">transit</span><span class="o">.</span><span class="n">cset</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[80]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>&lt;matplotlib.axes._subplots.AxesSubplot at 0x14da476d8&gt;
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_20_1.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_20_1.png" />
+</div>
+</div>
+</div>
+<div class="section" id="TESS-30-minute-Light-Curves">
+<h3>TESS 30-minute Light Curves<a class="headerlink" href="#TESS-30-minute-Light-Curves" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[180]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">stars</span> <span class="o">=</span> <span class="n">eleanor</span><span class="o">.</span><span class="n">multi_sectors</span><span class="p">(</span><span class="n">tic</span><span class="o">=</span><span class="mi">220440079</span><span class="p">,</span> <span class="n">sectors</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">)</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">stars</span><span class="p">:</span>
+    <span class="n">data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">eleanor</span><span class="o">.</span><span class="n">TargetData</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Found star in Sector(s) 9 10
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+/Users/arcticfox/Documents/GitHub/eleanor/eleanor/ffi.py:40: UserWarning: couldn&#39;t find pointing model
+  warnings.warn(&#34;couldn&#39;t find pointing model&#34;)
+/Users/arcticfox/Documents/GitHub/eleanor/eleanor/ffi.py:40: UserWarning: couldn&#39;t find pointing model
+  warnings.warn(&#34;couldn&#39;t find pointing model&#34;)
+WARNING: The &#34;exact&#34; method is not yet implemented for rectangular apertures -- using &#34;subpixel&#34; method with &#34;subpixels=32&#34; [photutils.aperture.core]
+WARNING: The &#34;exact&#34; method is not yet implemented for rectangular apertures -- using &#34;subpixel&#34; method with &#34;subpixels=32&#34; [photutils.aperture.core]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[181]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="p">(</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">)</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">axes</span> <span class="o">=</span> <span class="p">[</span><span class="n">ax1</span><span class="p">,</span> <span class="n">ax2</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)):</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">quality</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+    <span class="n">normflux</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">corr_flux</span><span class="p">[</span><span class="n">q</span><span class="p">]</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">nanmedian</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">corr_flux</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+    <span class="n">flux</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">flux</span><span class="p">,</span> <span class="n">normflux</span><span class="p">)</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">flux_err</span><span class="p">[</span><span class="n">q</span><span class="p">])</span>
+
+    <span class="n">axes</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">time</span><span class="p">[</span><span class="n">q</span><span class="p">],</span> <span class="n">normflux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time [BJD - 2457000]&#39;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Normalized Flux&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">1.01</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_23_0.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_23_0.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[182]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span> <span class="o">=</span> <span class="n">PeriodicRI</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">lomb_scargle</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">30.0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rotperiod</span><span class="o">.</span><span class="n">LS_results</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">25</span><span class="p">)</span>
+<span class="c1">#plt.ylim(0,0.05)</span>
+
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[183]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(0.0, 25.0)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_25_1.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_25_1.png" />
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[191]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">build_confidence_set</span><span class="p">(</span><span class="n">minperiod</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">maxperiod</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+                               <span class="n">min_thresh</span><span class="o">=</span><span class="mf">0.005</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">time_budget</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area stderr docutils container">
+<div class="highlight"><pre>
+
+  0%|          | 0/7 [00:00&lt;?, ?it/s]
+ 14%|█▍        | 1/7 [00:00&lt;00:03,  1.70it/s]
+ 29%|██▊       | 2/7 [00:01&lt;00:02,  1.70it/s]
+ 43%|████▎     | 3/7 [00:01&lt;00:02,  1.70it/s]
+ 57%|█████▋    | 4/7 [00:02&lt;00:01,  1.73it/s]
+ 71%|███████▏  | 5/7 [00:02&lt;00:01,  1.73it/s]
+ 86%|████████▌ | 6/7 [00:03&lt;00:00,  1.73it/s]
+100%|██████████| 7/7 [00:04&lt;00:00,  1.74it/s]
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[192]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[192]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([13.80230807,  6.6552094 ,  1.69269152,  1.49483808,  0.97148075])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[193]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">rotperiod</span><span class="o">.</span><span class="n">pvals_m</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[193]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>array([[[13.80230807,  0.44      ,  1.        ,  0.44      ],
+        [ 6.6552094 ,  0.85      ,  0.15      ,  0.        ],
+        [ 1.69269152,  0.86      ,  0.14      ,  0.        ],
+        [ 1.49483808,  0.85      ,  0.15      ,  0.        ],
+        [ 0.97148075,  0.88      ,  0.12      ,  0.        ]]])
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[216]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span><span class="n">fig</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">),</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">28</span><span class="p">),</span>
+                         <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">ax</span> <span class="ow">in</span> <span class="n">axes</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">fold</span> <span class="o">=</span> <span class="n">LC</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">time</span><span class="p">,</span> <span class="n">flux</span><span class="o">=</span><span class="n">flux</span><span class="p">)</span><span class="o">.</span><span class="n">fold</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fold</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">fold</span><span class="o">.</span><span class="n">flux</span><span class="p">,</span> <span class="s1">&#39;k.&#39;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$P_</span><span class="si">{rot}</span><span class="s1"> = $&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">rotperiod</span><span class="o">.</span><span class="n">cset</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mf">0.98</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[216]:
+</pre></div>
+</div>
+<div class="output_area highlight-none notranslate"><div class="highlight"><pre>
+<span></span>(0.98, 1.02)
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_29_1.png" src="../../_images/getting_started_.ipynb_checkpoints_demo-checkpoint_29_1.png" />
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre>
+<span></span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020-2021, Adina D. Feinstein.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+  
+
+
+</body>
+</html>
